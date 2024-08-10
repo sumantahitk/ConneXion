@@ -3,6 +3,9 @@ import cors from "cors";
 import cookeiParser from "cookie-parser";
 import dotenv from "dotenv"
 import connectDB from "./utils/db.js";
+import userRoute from "./routes/user.js";
+import bodyParser from "body-parser";
+
 dotenv.config({});
 
 const app=express();
@@ -16,6 +19,7 @@ app.get("/",(req,res)=>{
 
 //middlewares
 app.use(express.json());
+app.use(bodyParser.json());
 app.use(cookeiParser());
 app.use(urlencoded({extended:true}));
 
@@ -25,9 +29,12 @@ const corsOption={
 }
 app.use(cors(corsOption));
 
+//route api
+app.use("/api/v1/user",userRoute); 
 
-
-
+app.get("/abc",(req,res)=>{
+    res.send(" hello I am root you contacted the root path");
+});
 app.listen(port,()=>{
     connectDB();
     console.log(`server listen at port ${port}`);
