@@ -151,7 +151,7 @@ export const addComment = async (res,req)=>{
         const postId=req.params.id;
         const commentKarneWalaUserId=req.id;
 
-        const{text}=req.body;
+        const {text} =req.body;
         const post =await Post.findById(postId);
         if(!text) return res.status(400).json({message:'Text Required',success:false});
         
@@ -211,7 +211,7 @@ export const deletePost = async (req,res)=>{
 
         await user.save();
         //delete associated comments
-        await Comment.deletemany({post:postId});
+        await Comment.deleteMany({post:postId});
 
         return res.status(200).json({success:true,message:'Post deleted'});
     }catch(err)
