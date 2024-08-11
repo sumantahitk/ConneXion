@@ -2,7 +2,7 @@ import sharp from "sharp";
 import cloudinary from "../utils/cloudinary.js";
 import { Post } from "../models/post_model.js"
 import { User } from "../models/user_model.js";
-import Comment from "../models/comment_model.js"
+import{ Comment } from "../models/comment_model.js"
 import { ConnectionClosedEvent } from "mongodb";
 
 export const addNewPost = async (req, res) => {
