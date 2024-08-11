@@ -14,7 +14,7 @@ router.route('/suggested').get(isAuthenticated,getSuggestedUsers);
 router.route('/followorunfollow/:id').post(isAuthenticated,followOrUnfollow);
 
 
-router.get("/register",register);
+router.post("/register",register);
 router.post("/login",login);
 router.get('/logout',logout);
 router.get('/:id/profile',isAuthenticated,getProfile);
