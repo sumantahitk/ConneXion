@@ -6,7 +6,7 @@ import { Bookmark, MessageCircle, MoreHorizontal, Send } from "lucide-react";
 import { Button } from "./ui/button";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import CommentDialog from "./CommentDialog";
-const Post = () => {
+const Post = ({post}) => {
     const [text,setText]=useState("");
     const [open,setOpen]=useState(false);
     const changeEnevtHandler=(e)=>{
@@ -22,10 +22,10 @@ const Post = () => {
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                     <Avatar >
-                        <AvatarImage src="" alt="post_image" />
+                        <AvatarImage src={post.author?.profilePicture} alt="post_image" className=''/>
                         <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
-                    <h1>username</h1>
+                    <h1>{post.author?.username}</h1>
                 </div>
                 <Dialog >
                     <DialogTrigger asChild>
@@ -40,8 +40,8 @@ const Post = () => {
                 </Dialog>
             </div>
             <img
-                className="rounded-sm my-2 w-full aspect-square object-cover"
-                src="https://images.unsplash.com/photo-1721297013834-83e997155c72?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxNzJ8fHxlbnwwfHx8fHw%3D"
+                className="rounded-sm my-2 w-full aspect- square object-cover"
+                src={post.image}
                 alt="post_image" />
            
            
@@ -53,10 +53,11 @@ const Post = () => {
                 </div>
                 <Bookmark className="cursor-pointer hover:text-gray-600 w-7 h-7"/>
             </div>
-           <span className="font-medium block mb-2">1K likes</span>
+           <span className="font-medium block mb-2">{post.likes.length} likes</span>
            <p>
-            <span className="font-medium mr-2">username</span>
-                caption
+            {/* caption section */}
+            <span className="font-medium mr-2">{post.author?.username}</span>
+                {post.caption}
            </p>
            <span onClick={()=>setOpen(true)} className="cursor-pointer text-sm text-gray-400">View all 10 comments</span>
            <CommentDialog open={open} setOpen={setOpen}/>

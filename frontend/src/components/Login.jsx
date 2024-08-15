@@ -5,6 +5,8 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { Link, useNavigate } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
+import { useDispatch } from 'react-redux';
+import { setAuthUser } from '@/redux/authSlice';
 
 
 const Login = () => {
@@ -14,13 +16,16 @@ const Login = () => {
     });
     const [loading, setLoading] = useState(false);
     const navigate=useNavigate();
+
+    const disPatch=useDispatch();
+    
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
 
     }
     const signupHandler = async (e) => {
         e.preventDefault();
-        console.log(input);
+        // console.log(input);
         try {
             setLoading(true);
             const res = await axios.post('http://localhost:8000/api/v1/user/login', input, {
@@ -30,6 +35,7 @@ const Login = () => {
                 withCredentials: true
             });
             if (res.data.success) {
+                disPatch(setAuthUser(res.data.user));
                 navigate("/");
                 toast.success(res.data.message);
                 setInput({
