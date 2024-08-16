@@ -8,6 +8,7 @@ import { Loader2 } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { useDispatch, useSelector } from 'react-redux';
+import { setPosts, setSelectedPost } from '@/redux/postSlice';
 
 const CreatePost = ({ open, setOpen }) => {
     const imageRef = useRef();
@@ -19,7 +20,7 @@ const CreatePost = ({ open, setOpen }) => {
 
     const {user} =useSelector(store=>store.auth);
     const {posts}=useSelector(store=>store.post);
-
+   
     const fileChangeHandeler = async (e) => {
         const file = e.target.files?.[0];
         if (file) {
@@ -43,7 +44,7 @@ const CreatePost = ({ open, setOpen }) => {
             });
             if (res.data.success) {
                 //attach new post with old and show home page
-                dispatch(setPosts([res.data.post,...posts]))
+                dispatch(setPosts([res.data.post, ...posts]));
                 toast.success(res.data.message);
                 setOpen(false);
             }
