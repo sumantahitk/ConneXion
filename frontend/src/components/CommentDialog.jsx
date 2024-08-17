@@ -82,7 +82,7 @@ const CommentDialog = ({ open, setOpen }) => {
                                     <div className="flex flex-col">
                                      
                                         <Link className="font-semibold text-xs">{selectedPost?.author?.username}</Link>
-                                        <span className="text-gray-600 text-sm">{selectedPost.author?.bio}</span>
+                                        <span className="text-gray-600 text-sm">{selectedPost?.author?.bio}</span>
                                     </div>
                                 </div>
                                 <Dialog>
