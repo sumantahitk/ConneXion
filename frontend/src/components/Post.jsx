@@ -104,6 +104,21 @@ const Post = ({ post }) => {
             toast.error(error.response.data.message);
         }
     }
+    const bookMarkHandler= async()=>{
+        try{
+            const res=await axios.get(`http://localhost:8000/api/v1/post/${post?._id}/bookmark`,{
+                withCredentials:true,
+            })
+            if(res.data.success)
+            {
+                toast.success(res.data.message);
+            }
+            
+        }catch(error)
+        {
+            console.log(error);
+        }
+    }
     return (
         <div className="my-8 w-full max-w-sm mx-auto">
             <div className="flex items-center justify-between">
@@ -122,7 +137,11 @@ const Post = ({ post }) => {
                         <MoreHorizontal className="cursor-pointer" />
                     </DialogTrigger>
                     <DialogContent className="flex flex-col items-center text-sm text-center">
-                        <Button variant='ghost' className='cursor-pointer w-fit text-[#ED4956] font-bold'>Unfollow</Button>
+                        {
+                            post?.author?._id !== user?._id &&
+                            <Button variant='ghost' className='cursor-pointer w-fit text-[#ED4956] font-bold'>Unfollow</Button>
+                        }
+                        
                         <Button variant='ghost' className='cursor-pointer w-fit '>Add to favorites</Button>
                         {user && user?._id === post?.author._id &&
                             <Button onClick={deletePostHandeler} variant='ghost' className='cursor-pointer w-fit '>Delete</Button>
@@ -150,7 +169,7 @@ const Post = ({ post }) => {
                     }} className="cursor-pointer hover:text-gray-600 w-7 h-7" />
                     <Send className="cursor-pointer hover:text-gray-600 w-7 h-7" />
                 </div>
-                <Bookmark className="cursor-pointer hover:text-gray-600 w-7 h-7" />
+                <Bookmark onClick={bookMarkHandler} className="cursor-pointer hover:text-gray-600 w-7 h-7" />
             </div>
             <span className="font-medium block mb-2">{postLike} likes</span>
             <p>

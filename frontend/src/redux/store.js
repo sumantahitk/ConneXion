@@ -11,8 +11,10 @@ import {
     PURGE,
     REGISTER,
   } from 'redux-persist';
-  import storage from "redux-persist/lib/storage";
-  import { PersistGate } from "redux-persist/integration/react";
+  import storage from "redux-persist/lib/storage"; import { PersistGate } from "redux-persist/integration/react";
+import socketSlice from "./socketSlice";
+import chatSlice from "./chatSlice";
+import rtnSlice from "./rtnSlice";
 
 
 
@@ -23,7 +25,10 @@ const persistConfig = {
 }
 const rootReducer=combineReducers({
     auth:authSlice,
-    post:postSlice
+    post:postSlice,
+    socketio:socketSlice,
+    chat:chatSlice,
+    realTimeNotification:rtnSlice
 })
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
