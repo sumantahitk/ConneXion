@@ -35,7 +35,7 @@ const Post = ({ post }) => {
     const likeOrDislikeHandler = async () => {
         try {
             const action = liked ? 'dislike' : 'like';
-            const res = await axios.get(`http://localhost:8000/api/v1/post/${post?._id}/${action}`,
+            const res = await axios.get(`https://connexion-67zf.onrender.com/api/v1/post/${post?._id}/${action}`,
                 {
                     withCredentials: true
                 });
@@ -62,7 +62,7 @@ const Post = ({ post }) => {
     }
     const commentHandler = async () => {
         try {
-            const res = await axios.post(`http://localhost:8000/api/v1/post/${post?._id}/addcomment`,
+            const res = await axios.post(`https://connexion-67zf.onrender.com/api/v1/post/${post?._id}/addcomment`,
                 { text },
                 {
                     header: {
@@ -89,7 +89,7 @@ const Post = ({ post }) => {
     }
     const deletePostHandeler = async () => {
         try {
-            const res = await axios.delete(`http://localhost:8000/api/v1/post/${post?._id}/postdelete`,
+            const res = await axios.delete(`https://connexion-67zf.onrender.com/api/v1/post/${post?._id}/postdelete`,
                 {
                     withCredentials: true
                 });

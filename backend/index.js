@@ -19,12 +19,12 @@ const port=process.env.PORT || 8000;
 const __dirname = path.resolve();
 
 
-app.get("/",(req,res)=>{
-    return res.status(200).json({
-        message:"I'm coming from backend",
-        success:true,
-    })
-})
+// app.get("/",(req,res)=>{
+//     return res.status(200).json({
+//         message:"I'm coming from backend",
+//         success:true,
+//     })
+// })
 
 //middlewares
 app.use(express.json());
