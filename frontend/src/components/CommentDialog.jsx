@@ -31,7 +31,7 @@ const CommentDialog = ({ open, setOpen }) => {
     
     const sendMessageHandler = async () => {
         try {
-            const res = await axios.post(`http://localhost:8000/api/v1/post/${selectedPost?._id}/addcomment`,
+            const res = await axios.post(`https://connexion-67zf.onrender.com/api/v1/post/${selectedPost?._id}/addcomment`,
                 { text },
                 {
                     header: {

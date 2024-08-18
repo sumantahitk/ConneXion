@@ -24,7 +24,7 @@ const LeftSidebar = () => {
     const { likeNotification } = useSelector(store => store.realTimeNotification);
     const logountHandler = async () => {
         try {
-            const res = await axios.get('http://localhost:8000/api/v1/user/logout', {
+            const res = await axios.get('https://connexion-67zf.onrender.com/api/v1/user/logout', {
                 withCredentials: true
             });
             if (res.data.success) {

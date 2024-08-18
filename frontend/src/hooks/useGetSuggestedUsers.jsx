@@ -8,7 +8,7 @@ const useGetSuggestedUsers=()=>{
 
         const fetchSuggestedUsers =async ()=>{
             try{
-                const res=await axios.get('http://localhost:8000/api/v1/user/suggested',
+                const res=await axios.get('https://connexion-67zf.onrender.com/api/v1/user/suggested',
                     {
                         withCredentials:true
                     });

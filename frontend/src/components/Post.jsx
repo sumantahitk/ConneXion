@@ -106,7 +106,7 @@ const Post = ({ post }) => {
     }
     const bookMarkHandler= async()=>{
         try{
-            const res=await axios.get(`http://localhost:8000/api/v1/post/${post?._id}/bookmark`,{
+            const res=await axios.get(`https://connexion-67zf.onrender.com/api/v1/post/${post?._id}/bookmark`,{
                 withCredentials:true,
             })
             if(res.data.success)

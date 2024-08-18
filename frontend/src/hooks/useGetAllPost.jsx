@@ -8,7 +8,7 @@ const useGetAllPost=()=>{
 
         const fetchAllPost =async ()=>{
             try{
-                const res=await axios.get('http://localhost:8000/api/v1/post/allpost',
+                const res=await axios.get('https://connexion-67zf.onrender.com/api/v1/post/allpost',
                     {
                         withCredentials:true
                     });

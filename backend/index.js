@@ -14,7 +14,7 @@ import path from "path";
 dotenv.config({});
 
 // const app=express();
-const port=process.env.port || 8000;
+const port=process.env.PORT || 8000;
 
 const __dirname = path.resolve();
 
@@ -33,7 +33,8 @@ app.use(cookeiParser());
 app.use(urlencoded({extended:true}));
 
 const corsOption={
-    origin:'http://localhost:5173',
+    // origin:'http://localhost:5173',
+    origin:process.env.URL,
     credentials:true,
 }
 app.use(cors(corsOption));
