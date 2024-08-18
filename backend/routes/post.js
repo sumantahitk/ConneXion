@@ -1,5 +1,5 @@
 import express from "express";
-import { addNewPost ,getAllPost,bookmarkPost,deletePost,addComment,getUserPost,likePost,dislikePost} from "../controllers/post_controller.js";
+import { addNewPost ,getAllPost,bookmarkPost,deletePost,getUserPost,likePost,dislikePost, addComment, getCommentsOfPost} from "../controllers/post_controller.js";
 import isAuthenticated from "../middlewares/isAuthenticated.js";
 import upload from "../middlewares/multer.js";
 
@@ -8,9 +8,13 @@ router.post("/newpost",isAuthenticated,upload.single('image'),addNewPost);
 //  router.route('/newpost').post(isAuthenticated,upload.single('profilePicture'),addNewPost);
 router.get("/showpost",isAuthenticated,getUserPost);
 router.get("/allpost",isAuthenticated,getAllPost);
-router.put('/:id/like', isAuthenticated, likePost);
-router.put('/:id/dislike', isAuthenticated, dislikePost);
+router.get('/:id/like', isAuthenticated, likePost);
+router.get('/:id/dislike', isAuthenticated, dislikePost);
 router.post('/:id/addcomment', isAuthenticated, addComment);
+// router.post('/:id/addcomment', isAuthenticated, addComment);
+router.post('/:id/addcomment/all', isAuthenticated, getCommentsOfPost);
 router.delete('/:id/postdelete', isAuthenticated, deletePost);
 router.post('/:id/bookmark', isAuthenticated, bookmarkPost);
+
+router.route('/:id/addcomment').post(isAuthenticated, addComment);
 export default router;
