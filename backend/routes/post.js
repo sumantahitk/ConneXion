@@ -14,7 +14,7 @@ router.post('/:id/addcomment', isAuthenticated, addComment);
 // router.post('/:id/addcomment', isAuthenticated, addComment);
 router.post('/:id/addcomment/all', isAuthenticated, getCommentsOfPost);
 router.delete('/:id/postdelete', isAuthenticated, deletePost);
-router.post('/:id/bookmark', isAuthenticated, bookmarkPost);
+router.get('/:id/bookmark', isAuthenticated, bookmarkPost);
 
 router.route('/:id/addcomment').post(isAuthenticated, addComment);
 export default router;

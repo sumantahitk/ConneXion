@@ -4,7 +4,7 @@ import { Post } from "../models/post_model.js"
 import { User } from "../models/user_model.js";
 import{ Comment } from "../models/comment_model.js"
 import { ConnectionClosedEvent } from "mongodb";
-import { getReceiverSocketId } from "../socket/socket.js";
+import { getReceiverSocketId,io } from "../socket/socket.js";
 
 export const addNewPost = async (req, res) => {
     try {
