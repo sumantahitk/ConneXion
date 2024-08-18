@@ -4,6 +4,7 @@ import { Post } from "../models/post_model.js"
 import { User } from "../models/user_model.js";
 import{ Comment } from "../models/comment_model.js"
 import { ConnectionClosedEvent } from "mongodb";
+import { getReceiverSocketId } from "../socket/socket.js";
 
 export const addNewPost = async (req, res) => {
     try {
@@ -49,10 +50,10 @@ export const addNewPost = async (req, res) => {
 export const getAllPost = async (req, res) => {
     try {
         const posts = await Post.find().sort({ createdAt: -1 })
-            .populate({ path: 'author', select: 'username,profilePicture' })
+            .populate({ path: 'author', select: 'username profilePicture' })
             .populate({
                 path: 'comments', sort: { createdAt: -1 },
-                populate: { path: 'author', select: 'username,profilePicture' }
+                populate: { path: 'author', select: 'username profilePicture' }
             });
         return res.status(200).json({
             posts,
@@ -102,6 +103,21 @@ export const likePost = async (req, res) => {
         await post.save();
 
         //implement socket io for real time notification
+        const user=await User.findById(likeKarneWalaUserId).select('username profilePicture');
+        const postOwnerId=post.author.toString();
+        if(postOwnerId !== likeKarneWalaUserId)
+        {
+            //emit a notification event
+            const notification={
+                type:'like',
+                userId:likeKarneWalaUserId,
+                userDetails:user,
+                postId,
+                message:'Your post was like'
+            }
+            const postOwnerSocketId=getReceiverSocketId(postOwnerId);
+            io.to(postOwnerSocketId).emit('notification',notification);
+        }
 
         return res.status(200).json({
 
@@ -135,6 +151,22 @@ export const dislikePost = async (req, res) => {
 
         //implement socket io for real time notification
 
+        const user=await User.findById(dislikeKarneWalaUserId).select('username profilePicture');
+        const postOwnerId=post.author.toString();
+        if(postOwnerId !== dislikeKarneWalaUserId)
+        {
+            //emit a notification event
+            const notification={
+                type:'dislike',
+                userId:dislikeKarneWalaUserId,
+                userDetails:user,
+                postId,
+                message:'Your post was like'
+            }
+            const postOwnerSocketId=getReceiverSocketId(postOwnerId);
+            io.to(postOwnerSocketId).emit('notification',notification);
+        }
+
         return res.status(200).json({
 
             message:'Post Disliked',
@@ -146,12 +178,15 @@ export const dislikePost = async (req, res) => {
     }
 };
 
-export const addComment = async (res,req)=>{
+export const addComment = async (req,res)=>{
     try{
-        const postId=req.params.id;
+        // console.log(req.params.id);
+        const postId = req.params.id;
+        
         const commentKarneWalaUserId=req.id;
 
         const {text} =req.body;
+        if (!text) return res.status(400).json({ message: 'Text Required', success: false });
         const post =await Post.findById(postId);
         if(!text) return res.status(400).json({message:'Text Required',success:false});
         
@@ -159,8 +194,14 @@ export const addComment = async (res,req)=>{
             text,
             author:commentKarneWalaUserId,
             post:postId
-      }).populate({ path: 'author', select: 'username,profilePicture' });
+      })
+    //   await comment.populate
+    //     ({ path: 'author', select: 'username profilePicture bio' });
 
+    const user = await User.findById(comment.author).select('username profilePicture bio');
+console.log(user);
+
+    console.log(comment);
       post.comments.push(comment._id);
       await post.save();
 
@@ -171,7 +212,8 @@ export const addComment = async (res,req)=>{
       })
 
     }catch(err)
-    {
+    {   
+        // console.log("hello");
         console.log(err);
     }
 };
@@ -179,7 +221,7 @@ export const addComment = async (res,req)=>{
 export const getCommentsOfPost = async (req,res)=>{
     try{
         const postId=req.params.id;
-        const comments= await Comment.find({Post:postId}).populate('author', 'username,profilePicture');
+        const comments= await Comment.find({Post:postId}).populate('author', 'username profilePicture bio');
 
         if(!comments) return res.status(404).json({message:'No Comments found for this post',success:false});
         return res.status(200).json({success:true,comments});
